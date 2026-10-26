@@ -12,7 +12,7 @@
 </head>
 <body>
     <h2>Data Genre</h2>
-    <p><a href="/genres">Genre</a> | <a href="/authors">Author</a></p>
+    <p><a href="/genres">Genre</a> | <a href="/authors">Author</a> | <a href="/books">Book</a></p>
     <table>
         <tr>
             <th>ID</th>
