@@ -46,4 +46,78 @@ class AuthorController extends Controller
             'data' => $author,
         ], 201);
     }
+
+    public function show(string $id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Resource not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get resource',
+            'data' => $author,
+        ], 200);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Resource not found',
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'photo' => 'required|string|max:255',
+            'bio' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors(),
+            ], 422);
+        }
+
+        $author->update([
+            'name' => $request->name,
+            'photo' => $request->photo,
+            'bio' => $request->bio,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Resource updated successfully!',
+            'data' => $author,
+        ], 200);
+    }
+
+    public function destroy(string $id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Resource not found',
+            ], 404);
+        }
+
+        $author->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Resource deleted successfully!',
+        ], 200);
+    }
 }
